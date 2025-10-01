@@ -1,77 +1,73 @@
-
 <!DOCTYPE html>
 <html lang="no">
 <head>
-    <meta charset="UTF-8">
-    <title>Verdalskrana Sjekkliste</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style>
-        body { font-family: sans-serif; padding: 20px; background: #f9f9f9; }
-        h1 { color: #2c3e50; }
-        section { margin-bottom: 20px; }
-        label { display: block; margin: 5px 0; }
-        textarea { width: 100%; height: 150px; margin-top: 10px; }
-        button { padding: 10px 15px; margin-top: 10px; }
-    </style>
+  <meta charset="UTF-8">
+  <title>Daglig Sjekkliste – Verdalskrana AS</title>
+  <style>
+    body { font-family: sans-serif; background: #1c1c1c; color: #fff; padding: 20px; }
+    .container { max-width: 700px; margin: auto; background: #2c2c2c; padding: 20px; border-radius: 10px; }
+    h1 { text-align: center; color: #ffd700; }
+    .logo { display: block; margin: 0 auto 20px; width: 250px; }
+    label { display: block; margin: 10px 0; }
+    textarea { width: 100%; height: 100px; margin-top: 10px; border-radius: 5px; border: none; padding: 10px; }
+    button { background: #0077cc; color: white; padding: 12px 20px; border: none; border-radius: 5px; cursor: pointer; font-size: 16px; }
+    button:hover { background: #005fa3; }
+    section { margin-bottom: 20px; }
+    hr { border: 0; height: 1px; background: #444; margin: 20px 0; }
+  </style>
 </head>
 <body>
-    <h1>Daglig Sjekkliste - Verdalskrana</h1>
-    <form id="sjekklisteForm">
-        <section>
-            <h2>Risikovurdering</h2>
-            <label><input type="checkbox" name="risiko1"> Er alle involverte kjent med arbeidsoppgavene/ansvar?</label>
-            <label><input type="checkbox" name="risiko2"> Er området sikret?</label>
-        </section>
-        <section>
-            <h2>Maskiner</h2>
-            <label><input type="checkbox" name="maskin1"> 100tonner</label>
-            <label><input type="checkbox" name="maskin2"> 90tonner</label>
-            <label><input type="checkbox" name="maskin3"> KB1</label>
-            <label><input type="checkbox" name="maskin4"> KB2</label>
-            <label><input type="checkbox" name="maskin5"> Semi</label>
-            <label><input type="checkbox" name="maskin6"> Maeda305</label>
-            <label><input type="checkbox" name="maskin7"> Jekko650</label>
-            <label><input type="checkbox" name="maskin8"> TC1</label>
-            <label><input type="checkbox" name="maskin9"> Almac</label>
-        </section>
-        <button type="button" onclick="generateEmail()">Generer e-postinnhold</button>
-        <textarea id="emailContent" placeholder="E-postinnhold vises her..."></textarea>
+  <div class="container">
+    <img src="verdalskrana-logo.jpeg" alt="Verdalskrana AS" class="logo">
+    <h1>Daglig Sjekkliste</h1>
+
+    <form action="mailto:post@verdalskrana.no" method="POST" enctype="text/plain">
+      
+      <section>
+        <h2>📅 Generelt</h2>
+        <label><input type="checkbox" name="Dato"> Dato og klokkeslett registrert</label>
+        <label><input type="checkbox" name="Operatør"> Operatør og signalgiver identifisert</label>
+        <label><input type="checkbox" name="Løfteplan"> Løfteplan tilgjengelig og gjennomgått</label>
+        <label><input type="checkbox" name="Vær"> Værforhold vurdert og akseptable</label>
+        <label><input type="checkbox" name="Område"> Området avsperret og sikret</label>
+        <label><input type="checkbox" name="Fareområder"> Fareområder tydelig merket</label>
+      </section>
+
+      <section>
+        <h2>🧰 Utstyrskontroll</h2>
+        <label><input type="checkbox" name="Visuell kontroll"> Kran og løfteredskap visuelt kontrollert</label>
+        <label><input type="checkbox" name="Sertifikater"> Sertifikater og kontrollkort gyldige</label>
+        <label><input type="checkbox" name="Redskap"> Løfteredskap egnet og korrekt dimensjonert</label>
+        <label><input type="checkbox" name="Styretau"> Styretau montert der nødvendig</label>
+        <label><input type="checkbox" name="Løftepunkter"> Løftepunkter korrekt plassert og festet</label>
+        <label><input type="checkbox" name="Lastsuring"> Lastsuringer fjernet før løft</label>
+      </section>
+
+      <section>
+        <h2>👥 Personell og kommunikasjon</h2>
+        <label><input type="checkbox" name="Signalgiver"> Signalgiver utpekt og synlig for kranfører</label>
+        <label><input type="checkbox" name="Kommunikasjon"> Kommunikasjon etablert og testet</label>
+        <label><input type="checkbox" name="Roller"> Alle involverte informert om roller og oppgaver</label>
+        <label><input type="checkbox" name="Brief"> Sikkerhetsbrief gjennomført</label>
+        <label><input type="checkbox" name="Faresoner"> Personell plassert utenfor faresoner</label>
+      </section>
+
+      <section>
+        <h2>⚠️ Risikovurdering</h2>
+        <label><input type="checkbox" name="Skjevtrekk"> Fare for skjevtrekk vurdert</label>
+        <label><input type="checkbox" name="Kollisjon"> Fare for kollisjon med struktur/personell</label>
+        <label><input type="checkbox" name="Vind"> Fare ved vind/stabilitet</label>
+        <label><input type="checkbox" name="Sikt"> Fare ved manglende sikt</label>
+        <label><input type="checkbox" name="Nødprosedyrer"> Nødprosedyrer kjent og tilgjengelige</label>
+      </section>
+
+      <section>
+        <h2>📝 Kommentarer</h2>
+        <textarea name="Kommentarer" placeholder="Skriv inn observasjoner, avvik eller notater her..."></textarea>
+      </section>
+
+      <button type="submit">📤 Send til Verdalskrana</button>
     </form>
-
-    <script>
-        const form = document.getElementById('sjekklisteForm');
-        const emailContent = document.getElementById('emailContent');
-
-        // Load saved state
-        window.onload = () => {
-            const saved = JSON.parse(localStorage.getItem('sjekklisteState') || '{}');
-            for (const [key, value] of Object.entries(saved)) {
-                const input = form.elements.namedItem(key);
-                if (input) input.checked = value;
-            }
-        };
-
-        // Save state on change
-        form.addEventListener('change', () => {
-            const state = {};
-            for (const el of form.elements) {
-                if (el.type === 'checkbox') {
-                    state[el.name] = el.checked;
-                }
-            }
-            localStorage.setItem('sjekklisteState', JSON.stringify(state));
-        });
-
-        // Generate email content
-        function generateEmail() {
-            let content = "Sjekkliste - Verdalskrana\n\n";
-            for (const el of form.elements) {
-                if (el.type === 'checkbox') {
-                    content += `${el.parentElement.textContent.trim()}: ${el.checked ? '✔️' : '❌'}\n`;
-                }
-            }
-            emailContent.value = content;
-        }
-    </script>
+  </div>
 </body>
 </html>

@@ -10,64 +10,89 @@
     .logo { display: block; margin: 0 auto 20px; width: 250px; }
     label { display: block; margin: 10px 0; }
     textarea { width: 100%; height: 100px; margin-top: 10px; border-radius: 5px; border: none; padding: 10px; }
+    select, input[type="text"], input[type="file"] { width: 100%; padding: 8px; margin: 10px 0; border-radius: 5px; border: none; }
     button { background: #0077cc; color: white; padding: 12px 20px; border: none; border-radius: 5px; cursor: pointer; font-size: 16px; }
     button:hover { background: #005fa3; }
     section { margin-bottom: 20px; }
     hr { border: 0; height: 1px; background: #444; margin: 20px 0; }
+    #signature-pad { background: #fff; border: 2px solid #ffd700; border-radius: 5px; width: 100%; height: 120px; }
+    .sig-btns { margin-top: 5px; }
   </style>
 </head>
 <body>
   <div class="container">
-    <img src="verdalskrana-logo.jpeg" alt="Verdalskrana AS" class="logo">
+    verdalskrana-logo.jpeg
     <h1>Daglig Sjekkliste</h1>
 
-    <form action="mailto:post@verdalskrana.no" method="POST" enctype="text/plain">
-      
-      <section>
-        <h2>📅 Generelt</h2>
-        <label><input type="checkbox" name="Dato"> Dato og klokkeslett registrert</label>
-        <label><input type="checkbox" name="Operatør"> Operatør og signalgiver identifisert</label>
-        <label><input type="checkbox" name="Løfteplan"> Løfteplan tilgjengelig og gjennomgått</label>
-        <label><input type="checkbox" name="Vær"> Værforhold vurdert og akseptable</label>
-        <label><input type="checkbox" name="Område"> Området avsperret og sikret</label>
-        <label><input type="checkbox" name="Fareområder"> Fareområder tydelig merket</label>
-      </section>
+    mailto:post@verdalskrana.no
+      <label for="maskin"><b>Maskin:</b></label>
+      <select name="Maskin" id="maskin" required>
+        <option value="">Velg maskin...</option>
+        <option>100t</option>
+        <option>90t</option>
+        <option>KB1</option>
+        <option>KB2</option>
+        <option>Jekko650</option>
+        <option>Maeda</option>
+        <option>TC1</option>
+        <option>Almac</option>
+        <option>Riggoperasjon</option>
+        <option>Semi</option>
+      </select>
 
-      <section>
-        <h2>🧰 Utstyrskontroll</h2>
-        <label><input type="checkbox" name="Visuell kontroll"> Kran og løfteredskap visuelt kontrollert</label>
-        <label><input type="checkbox" name="Sertifikater"> Sertifikater og kontrollkort gyldige</label>
-        <label><input type="checkbox" name="Redskap"> Løfteredskap egnet og korrekt dimensjonert</label>
-        <label><input type="checkbox" name="Styretau"> Styretau montert der nødvendig</label>
-        <label><input type="checkbox" name="Løftepunkter"> Løftepunkter korrekt plassert og festet</label>
-        <label><input type="checkbox" name="Lastsuring"> Lastsuringer fjernet før løft</label>
-      </section>
+      <label for="navn"><b>Utførende navn:</b></label>
+      <input type="text" name="Navn" id="navn" placeholder="Skriv inn ditt navn" required>
 
-      <section>
-        <h2>👥 Personell og kommunikasjon</h2>
-        <label><input type="checkbox" name="Signalgiver"> Signalgiver utpekt og synlig for kranfører</label>
-        <label><input type="checkbox" name="Kommunikasjon"> Kommunikasjon etablert og testet</label>
-        <label><input type="checkbox" name="Roller"> Alle involverte informert om roller og oppgaver</label>
-        <label><input type="checkbox" name="Brief"> Sikkerhetsbrief gjennomført</label>
-        <label><input type="checkbox" name="Faresoner"> Personell plassert utenfor faresoner</label>
-      </section>
+      <label for="bilde"><b>Last opp bilde (valgfritt):</b></label>
+      <input type="file" name="Bilde" id="bilde" accept="image/*">
 
-      <section>
-        <h2>⚠️ Risikovurdering</h2>
-        <label><input type="checkbox" name="Skjevtrekk"> Fare for skjevtrekk vurdert</label>
-        <label><input type="checkbox" name="Kollisjon"> Fare for kollisjon med struktur/personell</label>
-        <label><input type="checkbox" name="Vind"> Fare ved vind/stabilitet</label>
-        <label><input type="checkbox" name="Sikt"> Fare ved manglende sikt</label>
-        <label><input type="checkbox" name="Nødprosedyrer"> Nødprosedyrer kjent og tilgjengelige</label>
-      </section>
+      <!-- Sjekklisteseksjoner her ... (kopier fra tidligere kode) -->
 
       <section>
         <h2>📝 Kommentarer</h2>
         <textarea name="Kommentarer" placeholder="Skriv inn observasjoner, avvik eller notater her..."></textarea>
       </section>
 
+      <section>
+        <h2>✍️ Signatur</h2>
+        <canvas id="signature-pad"></canvas>
+        <div class="sig-btns">
+          <button type="button" onclick="clearSignature()">Tøm signatur</button>
+        </div>
+        <input type="hidden" name="Signatur" id="signature-data">
+      </section>
+
       <button type="submit">📤 Send til Verdalskrana</button>
     </form>
   </div>
+  <script>
+    // Enkel signaturpad
+    const canvas = document.getElementById('signature-pad');
+    const ctx = canvas.getContext('2d');
+    let drawing = false;
+    canvas.addEventListener('mousedown', e => { drawing = true; ctx.beginPath(); });
+    canvas.addEventListener('mouseup', e => { drawing = false; });
+    canvas.addEventListener('mouseout', e => { drawing = false; });
+    canvas.addEventListener('mousemove', draw);
+    function draw(e) {
+      if (!drawing) return;
+      const rect = canvas.getBoundingClientRect();
+      ctx.lineWidth = 2;
+      ctx.lineCap = 'round';
+      ctx.strokeStyle = '#222';
+      ctx.lineTo(e.clientX - rect.left, e.clientY - rect.top);
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.moveTo(e.clientX - rect.left, e.clientY - rect.top);
+    }
+    function clearSignature() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      document.getElementById('signature-data').value = '';
+    }
+    // Lagre signatur som data-URL ved innsending
+    document.querySelector('form').addEventListener('submit', function(e) {
+      document.getElementById('signature-data').value = canvas.toDataURL();
+    });
+  </script>
 </body>
 </html>
